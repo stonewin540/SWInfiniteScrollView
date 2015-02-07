@@ -10,7 +10,6 @@
 		8EF96EEA1A85B833007D33F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF96EE91A85B833007D33F4 /* main.m */; };
 		8EF96EED1A85B833007D33F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF96EEC1A85B833007D33F4 /* AppDelegate.m */; };
 		8EF96EF01A85B833007D33F4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF96EEF1A85B833007D33F4 /* ViewController.m */; };
-		8EF96EF31A85B833007D33F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EF96EF11A85B833007D33F4 /* Main.storyboard */; };
 		8EF96EF51A85B833007D33F4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EF96EF41A85B833007D33F4 /* Images.xcassets */; };
 		8EF96EF81A85B833007D33F4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EF96EF61A85B833007D33F4 /* LaunchScreen.xib */; };
 		8EF96F041A85B833007D33F4 /* SWInfiniteScrollViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF96F031A85B833007D33F4 /* SWInfiniteScrollViewTests.m */; };
@@ -34,7 +33,6 @@
 		8EF96EEC1A85B833007D33F4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		8EF96EEE1A85B833007D33F4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		8EF96EEF1A85B833007D33F4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		8EF96EF21A85B833007D33F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8EF96EF41A85B833007D33F4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8EF96EF71A85B833007D33F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		8EF96EFD1A85B833007D33F4 /* SWInfiniteScrollViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SWInfiniteScrollViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,7 +83,6 @@
 				8EF96EEC1A85B833007D33F4 /* AppDelegate.m */,
 				8EF96EEE1A85B833007D33F4 /* ViewController.h */,
 				8EF96EEF1A85B833007D33F4 /* ViewController.m */,
-				8EF96EF11A85B833007D33F4 /* Main.storyboard */,
 				8EF96EF41A85B833007D33F4 /* Images.xcassets */,
 				8EF96EF61A85B833007D33F4 /* LaunchScreen.xib */,
 				8EF96EE71A85B833007D33F4 /* Supporting Files */,
@@ -199,7 +196,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8EF96EF31A85B833007D33F4 /* Main.storyboard in Resources */,
 				8EF96EF81A85B833007D33F4 /* LaunchScreen.xib in Resources */,
 				8EF96EF51A85B833007D33F4 /* Images.xcassets in Resources */,
 			);
@@ -244,14 +240,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		8EF96EF11A85B833007D33F4 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8EF96EF21A85B833007D33F4 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		8EF96EF61A85B833007D33F4 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -297,7 +285,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -332,7 +320,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
