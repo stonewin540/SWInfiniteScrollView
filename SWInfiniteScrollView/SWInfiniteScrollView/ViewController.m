@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "SWInfiniteScrollView.h"
 
 @interface ViewController ()
+
+@property (nonatomic, strong) SWInfiniteScrollView *scrollView;
 
 @end
 
@@ -26,11 +29,17 @@
 - (void)loadView {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    _scrollView = [[SWInfiniteScrollView alloc] initWithFrame:CGRectMake(0, 64, 320, 180)];
+    _scrollView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    _scrollView.numberOfPages = 3;
+    [self.view addSubview:_scrollView];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)didReceiveMemoryWarning {
