@@ -41,6 +41,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self.scrollView selector:@selector(reloadData) userInfo:nil repeats:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,7 +53,7 @@
 #pragma mark - SWInfiniteScrollView DataSource
 
 - (NSInteger)numberOfPagesInScrollView:(SWInfiniteScrollView *)scrollView {
-    NSInteger numberOfPages = 6;
+    NSInteger numberOfPages = (arc4random() % 6) + 1;
     return numberOfPages;
 }
 
