@@ -17,19 +17,39 @@
 @implementation SWInfiniteScrollViewItemView
 @end
 
-//typedef NS_ENUM(NSInteger, ItemViewPosition) {
-//    ItemViewPositionLeft = -1,
-//    ItemViewPositionMiddle = 0,
-//    ItemViewPositionRight = 1,
-//    Left,
-//    Middle,
-//    Right,
-//};
 typedef NS_ENUM(NSInteger, PositionOffset) {
     PositionOffsetLeft = -1,
     PositionOffsetMiddle = 0,
     PositionOffsetRight = 1,
 };
+
+@implementation NSMutableArray (SWInfiniteScrollView)
+
+/**
+ 循环排序的方法
+ @prama delta 负数，从前向后循环；正数，从后向前循环
+ @description
+    例如：0，1，2 delta＝－1 1，2，0
+         0，1，2 delta＝1   2，0，1
+ */
+- (void)rotatedItemsWithDelta:(NSInteger)delta {
+    NSInteger absDelta = ABS(delta);
+    NSParameterAssert(absDelta < self.count);
+    if (delta < 0)
+    {
+        NSArray *items = [self subarrayWithRange:NSMakeRange(0, absDelta)];
+        [self removeObjectsInArray:items];
+        [self addObjectsFromArray:items];
+    }
+    else if (delta > 0)
+    {
+        NSArray *items = [self subarrayWithRange:NSMakeRange(self.count - absDelta, absDelta)];
+        [self removeObjectsInArray:items];
+        [self insertObjects:items atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, items.count)]];
+    }
+}
+
+@end
 
 /**
  无论传入的page有多少页，只有三个item交替展示不同的page
@@ -43,6 +63,7 @@ static const NSInteger kMaxNumberOfItems = 3;
 // data
 @property (nonatomic, strong) NSMutableArray *itemViews;
 @property (nonatomic, assign) NSInteger currentPageIndex;
+@property (nonatomic, strong) NSMutableArray *itemIndexs;
 
 @end
 
@@ -54,8 +75,11 @@ static const NSInteger kMaxNumberOfItems = 3;
 }
 
 - (void)reloadData {
+    [self.itemIndexs removeAllObjects];
     for (int i = 0; i < kMaxNumberOfItems; i++)
     {
+        [self.itemIndexs addObject:@(i)];
+        
         SWInfiniteScrollViewItemView *itemView = [[SWInfiniteScrollViewItemView alloc] init];
         itemView.backgroundColor = [UIColor colorWithRed:((arc4random() % 255) / 255.f) green:((arc4random() % 255) / 255.f) blue:((arc4random() % 255) / 255.f) alpha:1];
         [self addSubitemView:itemView];
@@ -63,9 +87,9 @@ static const NSInteger kMaxNumberOfItems = 3;
         UILabel *label = [[UILabel alloc] initWithFrame:itemView.bounds];
         label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         label.backgroundColor = [UIColor clearColor];
-        label.text = [@(i) stringValue];
+        label.text = [NSString stringWithFormat:@"itemIndex: %d", i];
         label.textAlignment = NSTextAlignmentCenter;
-        label.font = [UIFont boldSystemFontOfSize:72];
+        label.font = [UIFont boldSystemFontOfSize:36];
         [itemView addSubview:label];
     }
 }
@@ -80,6 +104,7 @@ static const NSInteger kMaxNumberOfItems = 3;
         
         _itemViews = [[NSMutableArray alloc] init];
         _currentPageIndex = NSNotFound;
+        _itemIndexs = [[NSMutableArray alloc] init];
         
         _itemViewsWrapperView = [[SWInfiniteScrollViewWrapperView alloc] init];
         _itemViewsWrapperView.backgroundColor = [UIColor clearColor];
@@ -103,8 +128,12 @@ static const NSInteger kMaxNumberOfItems = 3;
     return index;
 }
 
-- (void)moveItemViewWithPositionOffset:(PositionOffset)positionOffset pageIndex:(NSInteger)pageIndex {
-    NSInteger itemIndex = [self indexWithOffset:0 fromIndex:pageIndex + 1 max:kMaxNumberOfItems];
+- (NSInteger)pageIndexWithOffset:(PositionOffset)positionOffset fromIndex:(NSInteger)fromIndex {
+    NSInteger pageIndex = [self indexWithOffset:positionOffset fromIndex:fromIndex max:self.numberOfPages];
+    return pageIndex;
+}
+
+- (void)moveItemViewWithPositionOffset:(PositionOffset)positionOffset index:(NSInteger)itemIndex {
     SWInfiniteScrollViewItemView *itemView = self.itemViews[itemIndex];
     CGFloat x = (positionOffset + 1) * CGRectGetWidth(self.bounds);
     CGRect itemViewFrame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
@@ -119,12 +148,16 @@ static const NSInteger kMaxNumberOfItems = 3;
     }
     self.currentPageIndex = pageIndex;
     
-    [self moveItemViewWithPositionOffset:PositionOffsetMiddle pageIndex:self.currentPageIndex];
+    NSInteger middleItemIndex = [self.itemIndexs[1] integerValue];
+    NSInteger leftItemIndex = [self.itemIndexs[0] integerValue];
+    NSInteger rightItemIndex = [self.itemIndexs[2] integerValue];
+    [self moveItemViewWithPositionOffset:PositionOffsetMiddle index:middleItemIndex];
+    [self moveItemViewWithPositionOffset:PositionOffsetLeft index:leftItemIndex];
+    [self moveItemViewWithPositionOffset:PositionOffsetRight index:rightItemIndex];
     self.contentOffset = [self centerOffset];
-    NSInteger leftIndex = [self indexWithOffset:PositionOffsetLeft fromIndex:self.currentPageIndex max:self.numberOfPages];
-    NSInteger rightIndex = [self indexWithOffset:PositionOffsetRight fromIndex:self.currentPageIndex max:self.numberOfPages];
-    [self moveItemViewWithPositionOffset:PositionOffsetLeft pageIndex:leftIndex];
-    [self moveItemViewWithPositionOffset:PositionOffsetRight pageIndex:rightIndex];
+    NSInteger leftPageIndex = [self pageIndexWithOffset:PositionOffsetLeft fromIndex:self.currentPageIndex];
+    NSInteger rightPageIndex = [self pageIndexWithOffset:PositionOffsetRight fromIndex:self.currentPageIndex];
+    NSLog(@"itemIndex: %d %d %d; pageIndex: %d %d %d", leftItemIndex, middleItemIndex, rightItemIndex, leftPageIndex, self.currentPageIndex, rightPageIndex);
 }
 
 - (void)layoutSubviews {
@@ -145,11 +178,13 @@ static const NSInteger kMaxNumberOfItems = 3;
     NSInteger currentPageIndex = self.currentPageIndex;
     if (forward)
     {
-        currentPageIndex = [self indexWithOffset:PositionOffsetRight fromIndex:currentPageIndex max:self.numberOfPages];
+        currentPageIndex = [self pageIndexWithOffset:PositionOffsetRight fromIndex:currentPageIndex];
+        [self.itemIndexs rotatedItemsWithDelta:PositionOffsetLeft];
     }
     else if (backrward)
     {
-        currentPageIndex = [self indexWithOffset:PositionOffsetLeft fromIndex:currentPageIndex max:self.numberOfPages];
+        currentPageIndex = [self pageIndexWithOffset:PositionOffsetLeft fromIndex:currentPageIndex];
+        [self.itemIndexs rotatedItemsWithDelta:PositionOffsetRight];
     }
     [self rearrangeItemsWithCenterPageIndex:currentPageIndex];
 }
