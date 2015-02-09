@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "SWInfiniteScrollView.h"
 
-@interface ViewController ()
+@interface ViewController () <SWInfiniteScrollViewDataSource, SWInfiniteScrollViewDelegate>
 
 @property (nonatomic, strong) SWInfiniteScrollView *scrollView;
 
@@ -32,7 +32,8 @@
     
     _scrollView = [[SWInfiniteScrollView alloc] initWithFrame:CGRectMake(0, 64, 320, 180)];
     _scrollView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    _scrollView.numberOfPages = 3;
+    _scrollView.dataSource = self;
+    _scrollView.delegate = self;
     [self.view addSubview:_scrollView];
 }
 
@@ -45,6 +46,35 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - SWInfiniteScrollView DataSource
+
+- (NSInteger)numberOfPagesInScrollView:(SWInfiniteScrollView *)scrollView {
+    NSInteger numberOfPages = 6;
+    return numberOfPages;
+}
+
+#pragma mark - SWInfiniteScrollView Delegate
+
+- (void)scrollView:(SWInfiniteScrollView *)scrollView willDisplayPageView:(SWInfiniteScrollPageView *)pageView atIndex:(NSInteger)index {
+    static const NSInteger kTagLabel = 15020901;
+    UILabel *label = (UILabel *)[pageView viewWithTag:kTagLabel];
+    if (!label)
+    {
+        UIColor *backgroundColors[] = {
+            [UIColor redColor],
+            [UIColor greenColor],
+            [UIColor blueColor],
+        };
+        label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(pageView.bounds), 36)];
+        label.backgroundColor = backgroundColors[index % 3];
+        label.font = [UIFont systemFontOfSize:18];
+        label.tag = kTagLabel;
+        [pageView addSubview:label];
+    }
+    
+    label.text = [NSString stringWithFormat:@"pageIndex: %d", index];
 }
 
 @end
