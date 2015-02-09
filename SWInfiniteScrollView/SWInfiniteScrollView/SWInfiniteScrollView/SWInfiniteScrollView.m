@@ -74,8 +74,36 @@ static const NSInteger kMaxNumberOfItems = 3;
     [self.itemViewsWrapperView addSubview:itemView];
 }
 
+- (CGPoint)centerOffset {
+    CGFloat x = 1 * CGRectGetWidth(self.bounds);
+    return CGPointMake(x, 0);
+}
+
 - (void)reloadData {
-    [self.itemIndexs removeAllObjects];
+    self.numberOfPages = 0;
+    if (self.dataSource)
+    {
+        self.numberOfPages = [self.dataSource numberOfPagesInScrollView:self];
+    }
+    
+    self.scrollEnabled = (self.numberOfPages > 1);
+    CGSize contentSize = CGSizeMake(kMaxNumberOfItems * CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+    self.contentSize = contentSize;
+    self.contentOffset = [self centerOffset];
+    
+    NSInteger pageIndex = self.currentPageIndex;
+    if (NSNotFound == pageIndex)
+    {
+        pageIndex = 0;
+    }
+    else if (self.currentPageIndex >= self.numberOfPages)
+    {
+        pageIndex = self.numberOfPages - 1;
+    }
+    [self rearrangeItemViewsWithMiddlePageIndex:pageIndex];
+}
+
+- (void)initItemViews {
     for (int i = 0; i < kMaxNumberOfItems; i++)
     {
         [self.itemIndexs addObject:@(i)];
@@ -109,13 +137,10 @@ static const NSInteger kMaxNumberOfItems = 3;
         _itemViewsWrapperView = [[SWInfiniteScrollViewWrapperView alloc] init];
         _itemViewsWrapperView.backgroundColor = [UIColor clearColor];
         [self addSubview:_itemViewsWrapperView];
+        
+        [self initItemViews];
     }
     return self;
-}
-
-- (CGPoint)centerOffset {
-    CGFloat x = 1 * CGRectGetWidth(self.bounds);
-    return CGPointMake(x, 0);
 }
 
 - (NSInteger)indexWithOffset:(NSInteger)offset fromIndex:(NSInteger)fromIndex max:(NSInteger)max {
@@ -141,11 +166,7 @@ static const NSInteger kMaxNumberOfItems = 3;
     itemView.frame = itemViewFrame;
 }
 
-- (void)rearrangeItemsWithCenterPageIndex:(NSInteger)pageIndex {
-    if (self.currentPageIndex == pageIndex)
-    {
-        return;
-    }
+- (void)rearrangeItemViewsWithMiddlePageIndex:(NSInteger)pageIndex {
     self.currentPageIndex = pageIndex;
     
     NSInteger middleItemIndex = [self.itemIndexs[1] integerValue];
@@ -158,19 +179,39 @@ static const NSInteger kMaxNumberOfItems = 3;
     NSInteger leftPageIndex = [self pageIndexWithOffset:PositionOffsetLeft fromIndex:self.currentPageIndex];
     NSInteger rightPageIndex = [self pageIndexWithOffset:PositionOffsetRight fromIndex:self.currentPageIndex];
     NSLog(@"itemIndex: %d %d %d; pageIndex: %d %d %d", leftItemIndex, middleItemIndex, rightItemIndex, leftPageIndex, self.currentPageIndex, rightPageIndex);
+    
+    if (self.delegate)
+    {
+        SWInfiniteScrollViewItemView *itemView = self.itemViews[middleItemIndex];
+        SWInfiniteScrollPageView *pageView = itemView.subviews.lastObject;
+        [self.delegate scrollView:self willDisplayPageView:pageView atIndex:self.currentPageIndex];
+        itemView = self.itemViews[leftItemIndex];
+        pageView = itemView.subviews.lastObject;
+        [self.delegate scrollView:self willDisplayPageView:pageView atIndex:leftPageIndex];
+        itemView = self.itemViews[rightItemIndex];
+        pageView = itemView.subviews.lastObject;
+        [self.delegate scrollView:self willDisplayPageView:pageView atIndex:rightPageIndex];
+    }
+}
+
+- (void)rearrangeItemViewsIfNeededWithMiddlePageIndex:(NSInteger)pageIndex {
+    if (0 == self.numberOfPages)
+    {
+        return;
+    }
+    if (self.currentPageIndex == pageIndex)
+    {
+        return;
+    }
+    [self rearrangeItemViewsWithMiddlePageIndex:pageIndex];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGSize contentSize = CGSizeMake(kMaxNumberOfItems * CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
-    if (!CGSizeEqualToSize(self.contentSize, contentSize))
+    if (CGSizeEqualToSize(self.contentSize, CGSizeZero))
     {
-        self.contentSize = contentSize;
-        self.contentOffset = [self centerOffset];
-        
         [self reloadData];
-        [self rearrangeItemsWithCenterPageIndex:0];
     }
     
     BOOL forward = (self.contentOffset.x >= (2 * CGRectGetWidth(self.bounds)));
@@ -186,7 +227,7 @@ static const NSInteger kMaxNumberOfItems = 3;
         currentPageIndex = [self pageIndexWithOffset:PositionOffsetLeft fromIndex:currentPageIndex];
         [self.itemIndexs rotatedItemsWithDelta:PositionOffsetRight];
     }
-    [self rearrangeItemsWithCenterPageIndex:currentPageIndex];
+    [self rearrangeItemViewsIfNeededWithMiddlePageIndex:currentPageIndex];
 }
 
 /*
