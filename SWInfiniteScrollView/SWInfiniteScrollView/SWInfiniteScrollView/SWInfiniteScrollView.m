@@ -79,8 +79,8 @@ static const NSInteger kMaxNumberOfItems = 3;
 // data
 @property (nonatomic, strong) NSMutableArray *itemViews;
 @property (nonatomic, strong) NSMutableArray *pageViews;
-@property (nonatomic, assign) NSInteger currentPageIndex;
 @property (nonatomic, strong) NSMutableArray *itemIndexs;
+@property (nonatomic, assign) NSUInteger numberOfPages;
 
 @end
 

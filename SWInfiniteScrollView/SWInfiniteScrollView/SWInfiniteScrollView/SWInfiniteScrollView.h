@@ -33,7 +33,7 @@
 
 @interface SWInfiniteScrollView : UIScrollView
 
-@property (nonatomic, assign) NSUInteger numberOfPages;
+@property (nonatomic, assign) NSInteger currentPageIndex;
 @property (nonatomic, weak) id<SWInfiniteScrollViewDataSource> dataSource;
 @property (nonatomic, weak) id<SWInfiniteScrollViewDelegate> delegate;
 
