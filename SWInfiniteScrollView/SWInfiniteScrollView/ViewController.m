@@ -8,14 +8,32 @@
 
 #import "ViewController.h"
 #import "SWInfiniteScrollView.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface ViewController () <SWInfiniteScrollViewDataSource, SWInfiniteScrollViewDelegate>
 
 @property (nonatomic, strong) SWInfiniteScrollView *scrollView;
+@property (nonatomic, strong) UIPageControl *pageControl;
+
+@property (nonatomic, assign) NSInteger numberOfPages;
 
 @end
 
 @implementation ViewController
+
+#pragma mark - Action
+
+- (void)pagesGenerator {
+    self.numberOfPages = arc4random() % 7;
+    self.pageControl.numberOfPages = self.numberOfPages;
+    [self.scrollView reloadData];
+}
+
+- (void)generateButtonTapped:(UIButton *)sender {
+    [self pagesGenerator];
+}
+
+#pragma mark - Lifecycle
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -35,14 +53,31 @@
     _scrollView.dataSource = self;
     _scrollView.delegate = self;
     [self.view addSubview:_scrollView];
+    
+    CGRect slice, remainder;
+    CGRectDivide(_scrollView.frame, &slice, &remainder, 20, CGRectMaxYEdge);
+    _pageControl = [[UIPageControl alloc] initWithFrame:slice];
+    _pageControl.backgroundColor = [UIColor colorWithWhite:0 alpha:.3f];
+    [self.view addSubview:_pageControl];
+    
+    CGRect generateButtonFrame = CGRectMake(0, CGRectGetMaxY(_pageControl.frame) + 20, CGRectGetWidth(self.view.bounds), 50);
+    UIButton *generateButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    generateButton.frame = generateButtonFrame;
+    generateButton.titleLabel.font = [UIFont systemFontOfSize:18];
+    generateButton.layer.cornerRadius = CGRectGetMidY(generateButton.bounds);
+    generateButton.layer.masksToBounds = YES;
+    generateButton.layer.borderColor = generateButton.titleLabel.textColor.CGColor;
+    generateButton.layer.borderWidth = .5f;
+    [generateButton setTitle:@"random pages" forState:UIControlStateNormal];
+    [generateButton addTarget:self action:@selector(generateButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:generateButton];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    [NSTimer scheduledTimerWithTimeInterval:5 target:self.scrollView selector:@selector(reloadData) userInfo:nil repeats:YES];
+    [self pagesGenerator];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,8 +88,7 @@
 #pragma mark - SWInfiniteScrollView DataSource
 
 - (NSInteger)numberOfPagesInScrollView:(SWInfiniteScrollView *)scrollView {
-    NSInteger numberOfPages = (arc4random() % 6) + 1;
-    return numberOfPages;
+    return self.numberOfPages;
 }
 
 #pragma mark - SWInfiniteScrollView Delegate
@@ -72,13 +106,15 @@
     {
         label = [[UILabel alloc] initWithFrame:pageView.bounds];
         label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        label.font = [UIFont systemFontOfSize:18];
+        label.font = [UIFont systemFontOfSize:36];
         label.tag = kTagLabel;
         [pageView addSubview:label];
     }
     
     label.backgroundColor = backgroundColors[index % 3];
     label.text = [NSString stringWithFormat:@"pageIndex: %d", index];
+    
+    self.pageControl.currentPage = scrollView.currentPageIndex;
 }
 
 @end
