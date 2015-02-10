@@ -61,21 +61,23 @@
 
 - (void)scrollView:(SWInfiniteScrollView *)scrollView willDisplayPageView:(SWInfiniteScrollPageView *)pageView atIndex:(NSInteger)index {
     static const NSInteger kTagLabel = 15020901;
+    UIColor *backgroundColors[] = {
+        [UIColor redColor],
+        [UIColor greenColor],
+        [UIColor blueColor],
+    };
+    
     UILabel *label = (UILabel *)[pageView viewWithTag:kTagLabel];
     if (!label)
     {
-        UIColor *backgroundColors[] = {
-            [UIColor redColor],
-            [UIColor greenColor],
-            [UIColor blueColor],
-        };
-        label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(pageView.bounds), 36)];
-        label.backgroundColor = backgroundColors[index % 3];
+        label = [[UILabel alloc] initWithFrame:pageView.bounds];
+        label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         label.font = [UIFont systemFontOfSize:18];
         label.tag = kTagLabel;
         [pageView addSubview:label];
     }
     
+    label.backgroundColor = backgroundColors[index % 3];
     label.text = [NSString stringWithFormat:@"pageIndex: %d", index];
 }
 
