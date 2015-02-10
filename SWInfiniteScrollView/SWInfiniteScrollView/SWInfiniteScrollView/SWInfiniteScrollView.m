@@ -12,9 +12,25 @@
 @end
 @implementation SWInfiniteScrollViewWrapperView
 @end
+
 @interface SWInfiniteScrollViewItemView : UIView
 @end
 @implementation SWInfiniteScrollViewItemView
+- (SWInfiniteScrollPageView *)pageView {
+    UIView *pageView = nil;
+    for (UIView *subview in self.subviews)
+    {
+        if ([subview isKindOfClass:[SWInfiniteScrollPageView class]])
+        {
+            pageView = subview;
+            break;
+        }
+    }
+    return (SWInfiniteScrollPageView *)pageView;
+}
+@end
+
+@implementation SWInfiniteScrollPageView
 @end
 
 typedef NS_ENUM(NSInteger, PositionOffset) {
@@ -62,6 +78,7 @@ static const NSInteger kMaxNumberOfItems = 3;
 @property (nonatomic, strong) SWInfiniteScrollViewWrapperView *itemViewsWrapperView;
 // data
 @property (nonatomic, strong) NSMutableArray *itemViews;
+@property (nonatomic, strong) NSMutableArray *pageViews;
 @property (nonatomic, assign) NSInteger currentPageIndex;
 @property (nonatomic, strong) NSMutableArray *itemIndexs;
 
@@ -86,9 +103,30 @@ static const NSInteger kMaxNumberOfItems = 3;
         self.numberOfPages = [self.dataSource numberOfPagesInScrollView:self];
     }
     
+    if (0 == self.numberOfPages)
+    {
+        [self.pageViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        [self.pageViews removeAllObjects];
+        self.currentPageIndex = 0;
+    }
+    else
+    {
+        for (SWInfiniteScrollViewItemView *itemView in self.itemViews)
+        {
+            SWInfiniteScrollPageView *pageView = [itemView pageView];
+            if (!pageView)
+            {
+                pageView = [[SWInfiniteScrollPageView alloc] initWithFrame:itemView.bounds];
+                pageView.backgroundColor = [UIColor clearColor];
+                pageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+                [itemView addSubview:pageView];
+                [self.pageViews addObject:pageView];
+            }
+        }
+    }
+    
     self.scrollEnabled = (self.numberOfPages > 1);
-    CGSize contentSize = CGSizeMake(kMaxNumberOfItems * CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
-    self.contentSize = contentSize;
+    self.contentSize = CGSizeMake(kMaxNumberOfItems * CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
     self.contentOffset = [self centerOffset];
     
     NSInteger pageIndex = self.currentPageIndex;
@@ -100,7 +138,13 @@ static const NSInteger kMaxNumberOfItems = 3;
     {
         pageIndex = self.numberOfPages - 1;
     }
-    [self rearrangeItemViewsWithMiddlePageIndex:pageIndex];
+    // 暂时不能判断pageIndex != self.currentPageIndex才rearrange
+    // 如果原来numberOfPages＝2，停留在第0页，两边应该是第1页
+    // 现在numberOfPages＝3，还停留在第0页，明显两边应该分别是第2页和第1页，如果不rearrange，两边是不会加载的
+    if (pageIndex >= 0)
+    {// numberOfPages等于0的时候，pageIndex等于－1
+        [self rearrangeItemViewsWithMiddlePageIndex:pageIndex];
+    }
 }
 
 - (void)initItemViews {
@@ -109,16 +153,8 @@ static const NSInteger kMaxNumberOfItems = 3;
         [self.itemIndexs addObject:@(i)];
         
         SWInfiniteScrollViewItemView *itemView = [[SWInfiniteScrollViewItemView alloc] init];
-        itemView.backgroundColor = [UIColor colorWithRed:((arc4random() % 255) / 255.f) green:((arc4random() % 255) / 255.f) blue:((arc4random() % 255) / 255.f) alpha:1];
+        itemView.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:((arc4random() % 255) / 255.f) green:((arc4random() % 255) / 255.f) blue:((arc4random() % 255) / 255.f) alpha:1];
         [self addSubitemView:itemView];
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:itemView.bounds];
-        label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        label.backgroundColor = [UIColor clearColor];
-        label.text = [NSString stringWithFormat:@"itemIndex: %d", i];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.font = [UIFont boldSystemFontOfSize:36];
-        [itemView addSubview:label];
     }
 }
 
@@ -131,6 +167,7 @@ static const NSInteger kMaxNumberOfItems = 3;
         self.showsVerticalScrollIndicator = NO;
         
         _itemViews = [[NSMutableArray alloc] init];
+        _pageViews = [[NSMutableArray alloc] init];
         _currentPageIndex = NSNotFound;
         _itemIndexs = [[NSMutableArray alloc] init];
         
@@ -182,12 +219,15 @@ static const NSInteger kMaxNumberOfItems = 3;
     
     if (self.delegate)
     {
+        // middle
         SWInfiniteScrollViewItemView *itemView = self.itemViews[middleItemIndex];
         SWInfiniteScrollPageView *pageView = itemView.subviews.lastObject;
         [self.delegate scrollView:self willDisplayPageView:pageView atIndex:self.currentPageIndex];
+        // left
         itemView = self.itemViews[leftItemIndex];
         pageView = itemView.subviews.lastObject;
         [self.delegate scrollView:self willDisplayPageView:pageView atIndex:leftPageIndex];
+        // right
         itemView = self.itemViews[rightItemIndex];
         pageView = itemView.subviews.lastObject;
         [self.delegate scrollView:self willDisplayPageView:pageView atIndex:rightPageIndex];
