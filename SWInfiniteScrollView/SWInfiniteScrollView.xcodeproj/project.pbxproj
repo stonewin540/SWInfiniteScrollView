@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E6E17041A8A002D0085AAC8 /* SWInfiniteScrollContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E6E17031A8A002D0085AAC8 /* SWInfiniteScrollContainer.m */; };
+		8E6E17101A8A0A300085AAC8 /* scrollImage0@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8E6E17061A8A0A300085AAC8 /* scrollImage0@2x.jpg */; };
+		8E6E17111A8A0A300085AAC8 /* scrollImage1@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8E6E17071A8A0A300085AAC8 /* scrollImage1@2x.jpg */; };
+		8E6E17121A8A0A300085AAC8 /* scrollImage2@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8E6E17081A8A0A300085AAC8 /* scrollImage2@2x.jpg */; };
+		8E6E17131A8A0A300085AAC8 /* scrollImage3@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8E6E17091A8A0A300085AAC8 /* scrollImage3@2x.jpg */; };
+		8E6E17141A8A0A300085AAC8 /* scrollImage4@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8E6E170A1A8A0A300085AAC8 /* scrollImage4@2x.jpg */; };
+		8E6E17151A8A0A300085AAC8 /* scrollImage5@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8E6E170B1A8A0A300085AAC8 /* scrollImage5@2x.jpg */; };
+		8E6E17161A8A0A300085AAC8 /* scrollImage6@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8E6E170C1A8A0A300085AAC8 /* scrollImage6@2x.jpg */; };
+		8E6E17171A8A0A300085AAC8 /* scrollImage7@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8E6E170D1A8A0A300085AAC8 /* scrollImage7@2x.jpg */; };
+		8E6E17181A8A0A300085AAC8 /* scrollImage8@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8E6E170E1A8A0A300085AAC8 /* scrollImage8@2x.jpg */; };
+		8E6E17191A8A0A300085AAC8 /* scrollImage9@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8E6E170F1A8A0A300085AAC8 /* scrollImage9@2x.jpg */; };
 		8EF96EEA1A85B833007D33F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF96EE91A85B833007D33F4 /* main.m */; };
 		8EF96EED1A85B833007D33F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF96EEC1A85B833007D33F4 /* AppDelegate.m */; };
 		8EF96EF01A85B833007D33F4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF96EEF1A85B833007D33F4 /* ViewController.m */; };
@@ -27,6 +38,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8E6E17021A8A002D0085AAC8 /* SWInfiniteScrollContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWInfiniteScrollContainer.h; sourceTree = "<group>"; };
+		8E6E17031A8A002D0085AAC8 /* SWInfiniteScrollContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWInfiniteScrollContainer.m; sourceTree = "<group>"; };
+		8E6E17061A8A0A300085AAC8 /* scrollImage0@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "scrollImage0@2x.jpg"; sourceTree = "<group>"; };
+		8E6E17071A8A0A300085AAC8 /* scrollImage1@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "scrollImage1@2x.jpg"; sourceTree = "<group>"; };
+		8E6E17081A8A0A300085AAC8 /* scrollImage2@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "scrollImage2@2x.jpg"; sourceTree = "<group>"; };
+		8E6E17091A8A0A300085AAC8 /* scrollImage3@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "scrollImage3@2x.jpg"; sourceTree = "<group>"; };
+		8E6E170A1A8A0A300085AAC8 /* scrollImage4@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "scrollImage4@2x.jpg"; sourceTree = "<group>"; };
+		8E6E170B1A8A0A300085AAC8 /* scrollImage5@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "scrollImage5@2x.jpg"; sourceTree = "<group>"; };
+		8E6E170C1A8A0A300085AAC8 /* scrollImage6@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "scrollImage6@2x.jpg"; sourceTree = "<group>"; };
+		8E6E170D1A8A0A300085AAC8 /* scrollImage7@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "scrollImage7@2x.jpg"; sourceTree = "<group>"; };
+		8E6E170E1A8A0A300085AAC8 /* scrollImage8@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "scrollImage8@2x.jpg"; sourceTree = "<group>"; };
+		8E6E170F1A8A0A300085AAC8 /* scrollImage9@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "scrollImage9@2x.jpg"; sourceTree = "<group>"; };
 		8EF96EE41A85B833007D33F4 /* SWInfiniteScrollView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SWInfiniteScrollView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EF96EE81A85B833007D33F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8EF96EE91A85B833007D33F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -61,6 +84,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8E6E17051A8A0A300085AAC8 /* ScrollImages */ = {
+			isa = PBXGroup;
+			children = (
+				8E6E17061A8A0A300085AAC8 /* scrollImage0@2x.jpg */,
+				8E6E17071A8A0A300085AAC8 /* scrollImage1@2x.jpg */,
+				8E6E17081A8A0A300085AAC8 /* scrollImage2@2x.jpg */,
+				8E6E17091A8A0A300085AAC8 /* scrollImage3@2x.jpg */,
+				8E6E170A1A8A0A300085AAC8 /* scrollImage4@2x.jpg */,
+				8E6E170B1A8A0A300085AAC8 /* scrollImage5@2x.jpg */,
+				8E6E170C1A8A0A300085AAC8 /* scrollImage6@2x.jpg */,
+				8E6E170D1A8A0A300085AAC8 /* scrollImage7@2x.jpg */,
+				8E6E170E1A8A0A300085AAC8 /* scrollImage8@2x.jpg */,
+				8E6E170F1A8A0A300085AAC8 /* scrollImage9@2x.jpg */,
+			);
+			path = ScrollImages;
+			sourceTree = "<group>";
+		};
 		8EF96EDB1A85B833007D33F4 = {
 			isa = PBXGroup;
 			children = (
@@ -82,11 +122,14 @@
 		8EF96EE61A85B833007D33F4 /* SWInfiniteScrollView */ = {
 			isa = PBXGroup;
 			children = (
+				8E6E17051A8A0A300085AAC8 /* ScrollImages */,
 				8EF96F0D1A85BAED007D33F4 /* SWInfiniteScrollView */,
 				8EF96EEB1A85B833007D33F4 /* AppDelegate.h */,
 				8EF96EEC1A85B833007D33F4 /* AppDelegate.m */,
 				8EF96EEE1A85B833007D33F4 /* ViewController.h */,
 				8EF96EEF1A85B833007D33F4 /* ViewController.m */,
+				8E6E17021A8A002D0085AAC8 /* SWInfiniteScrollContainer.h */,
+				8E6E17031A8A002D0085AAC8 /* SWInfiniteScrollContainer.m */,
 				8EF96EF41A85B833007D33F4 /* Images.xcassets */,
 				8EF96EF61A85B833007D33F4 /* LaunchScreen.xib */,
 				8EF96EE71A85B833007D33F4 /* Supporting Files */,
@@ -210,7 +253,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EF96EF81A85B833007D33F4 /* LaunchScreen.xib in Resources */,
+				8E6E17161A8A0A300085AAC8 /* scrollImage6@2x.jpg in Resources */,
+				8E6E17121A8A0A300085AAC8 /* scrollImage2@2x.jpg in Resources */,
+				8E6E17191A8A0A300085AAC8 /* scrollImage9@2x.jpg in Resources */,
+				8E6E17171A8A0A300085AAC8 /* scrollImage7@2x.jpg in Resources */,
 				8EF96EF51A85B833007D33F4 /* Images.xcassets in Resources */,
+				8E6E17151A8A0A300085AAC8 /* scrollImage5@2x.jpg in Resources */,
+				8E6E17181A8A0A300085AAC8 /* scrollImage8@2x.jpg in Resources */,
+				8E6E17131A8A0A300085AAC8 /* scrollImage3@2x.jpg in Resources */,
+				8E6E17101A8A0A300085AAC8 /* scrollImage0@2x.jpg in Resources */,
+				8E6E17141A8A0A300085AAC8 /* scrollImage4@2x.jpg in Resources */,
+				8E6E17111A8A0A300085AAC8 /* scrollImage1@2x.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EF96EF01A85B833007D33F4 /* ViewController.m in Sources */,
+				8E6E17041A8A002D0085AAC8 /* SWInfiniteScrollContainer.m in Sources */,
 				8EF96EED1A85B833007D33F4 /* AppDelegate.m in Sources */,
 				8EF96EEA1A85B833007D33F4 /* main.m in Sources */,
 				8EF96F101A85BB15007D33F4 /* SWInfiniteScrollView.m in Sources */,
@@ -414,6 +468,7 @@
 				8EF96F091A85B833007D33F4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8EF96F0A1A85B833007D33F4 /* Build configuration list for PBXNativeTarget "SWInfiniteScrollViewTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +477,7 @@
 				8EF96F0C1A85B833007D33F4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
