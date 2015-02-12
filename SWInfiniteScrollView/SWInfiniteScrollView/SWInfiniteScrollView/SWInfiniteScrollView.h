@@ -38,5 +38,6 @@
 @property (nonatomic, weak) id<SWInfiniteScrollViewDelegate> delegate;
 
 - (void)reloadData;
+- (void)scrollPageIndexToVisible:(NSInteger)pageIndex animated:(BOOL)animated;
 
 @end

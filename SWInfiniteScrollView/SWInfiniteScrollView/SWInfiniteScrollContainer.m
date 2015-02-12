@@ -25,6 +25,10 @@
 
 @implementation SWInfiniteScrollContainer
 
+- (void)scrollToPageIndex:(NSInteger)pageIndex {
+    [self.scrollView scrollPageIndexToVisible:pageIndex animated:YES];
+}
+
 - (void)setImages:(NSArray *)images {
     if ([_images isEqualToArray:images])
     {

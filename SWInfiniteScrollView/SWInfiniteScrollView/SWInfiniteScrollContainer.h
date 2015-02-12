@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong) NSArray *images;
 
+- (void)scrollToPageIndex:(NSInteger)pageIndex;
+
 @end
