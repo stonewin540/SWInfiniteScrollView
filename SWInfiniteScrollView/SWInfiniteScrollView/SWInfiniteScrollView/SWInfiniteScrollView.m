@@ -281,20 +281,10 @@ static const NSInteger kMaxNumberOfItems = 3;
 - (void)scrollPageIndexToVisible:(NSInteger)pageIndex animated:(BOOL)animated {
     if (animated)
     {
-        CGPoint rightOffset = [self centerOffset];
-        rightOffset.x += CGRectGetWidth(self.bounds);
-        
-        [UIView animateWithDuration:.25f animations:^{
-            // 为什么减一个point？因为刚好是整数的话会导致没有动画
-            CGPoint contentOffset = rightOffset;
-            contentOffset.x -= 1;
-            self.contentOffset = contentOffset;
-        } completion:^(BOOL finished) {
-            if (finished)
-            {
-                self.contentOffset = rightOffset;
-            }
-        }];
+        CGPoint contentOffset = [self centerOffset];
+        NSInteger diff = pageIndex - self.currentPageIndex;
+        contentOffset.x += diff * CGRectGetWidth(self.bounds);
+        [self setContentOffset:contentOffset animated:YES];
     }
     else
     {
