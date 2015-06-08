@@ -81,6 +81,7 @@ static const NSInteger kMaxNumberOfItems = 3;
 @property (nonatomic, strong) NSMutableArray *pageViews;
 @property (nonatomic, strong) NSMutableArray *itemIndexs;
 @property (nonatomic, assign) NSUInteger numberOfPages;
+@property (nonatomic, assign) NSInteger requestedScrollToPageIndex;
 
 @end
 
@@ -170,6 +171,7 @@ static const NSInteger kMaxNumberOfItems = 3;
         _pageViews = [[NSMutableArray alloc] init];
         _currentPageIndex = NSNotFound;
         _itemIndexs = [[NSMutableArray alloc] init];
+        _requestedScrollToPageIndex = NSNotFound;
         
         _itemViewsWrapperView = [[SWInfiniteScrollViewWrapperView alloc] init];
         _itemViewsWrapperView.backgroundColor = [UIColor clearColor];
@@ -268,6 +270,12 @@ static const NSInteger kMaxNumberOfItems = 3;
         [self.itemIndexs rotatedItemsWithDelta:PositionOffsetRight];
     }
     [self rearrangeItemViewsIfNeededWithMiddlePageIndex:currentPageIndex];
+    
+    if ((NSNotFound != self.requestedScrollToPageIndex) && (self.requestedScrollToPageIndex != self.currentPageIndex))
+    {
+        [self scrollPageIndexToVisible:self.requestedScrollToPageIndex animated:YES];
+        self.requestedScrollToPageIndex = NSNotFound;
+    }
 }
 
 /*
@@ -279,6 +287,7 @@ static const NSInteger kMaxNumberOfItems = 3;
 */
 
 - (void)scrollPageIndexToVisible:(NSInteger)pageIndex animated:(BOOL)animated {
+    self.requestedScrollToPageIndex = pageIndex;
     if (animated)
     {
         CGPoint contentOffset = [self centerOffset];
