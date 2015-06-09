@@ -117,8 +117,13 @@ static const NSInteger kMaxNumberOfItems = 3;
             SWInfiniteScrollPageView *pageView = [itemView pageView];
             if (!pageView)
             {
-                pageView = [[SWInfiniteScrollPageView alloc] initWithFrame:itemView.bounds];
-                pageView.backgroundColor = [UIColor clearColor];
+                Class pageViewClass = [SWInfiniteScrollPageView class];
+                if (self.dataSource)
+                {
+                    pageViewClass = [self.dataSource classOfPageViewInScrollView:self];
+                    NSParameterAssert([pageViewClass isSubclassOfClass:[SWInfiniteScrollPageView class]]);
+                }
+                pageView = [[pageViewClass alloc] initWithFrame:itemView.bounds];
                 pageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
                 [itemView addSubview:pageView];
                 [self.pageViews addObject:pageView];

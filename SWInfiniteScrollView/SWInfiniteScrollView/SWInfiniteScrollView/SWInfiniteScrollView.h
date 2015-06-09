@@ -15,6 +15,7 @@
 @protocol SWInfiniteScrollViewDataSource <NSObject>
 
 - (NSInteger)numberOfPagesInScrollView:(SWInfiniteScrollView *)scrollView;
+- (Class)classOfPageViewInScrollView:(SWInfiniteScrollView *)scrollView;
 
 @end
 @protocol SWInfiniteScrollViewDelegate <NSObject, UIScrollViewDelegate>
