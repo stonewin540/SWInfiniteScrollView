@@ -178,8 +178,9 @@ static const NSInteger kMaxNumberOfItems = 3;
         _itemIndexs = [[NSMutableArray alloc] init];
         _requestedScrollToPageIndex = NSNotFound;
         
-        _itemViewsWrapperView = [[SWInfiniteScrollViewWrapperView alloc] init];
+        _itemViewsWrapperView = [[SWInfiniteScrollViewWrapperView alloc] initWithFrame:self.bounds];
         _itemViewsWrapperView.backgroundColor = [UIColor clearColor];
+        _itemViewsWrapperView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self addSubview:_itemViewsWrapperView];
         
         [self initItemViews];
