@@ -1,4 +1,7 @@
+Inspired by https://github.com/malcommac/DMLazyScrollView
+
 Infinite ScrollView
+
 	采用三个pageView交替展示的好处：
 		无论你的数据量时多大，永远都是惰性加载，不会占用太多的内存；
 	采用三个pageView交替展示的坏处：
