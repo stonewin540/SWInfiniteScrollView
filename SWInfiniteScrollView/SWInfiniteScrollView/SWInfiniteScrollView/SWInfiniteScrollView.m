@@ -195,7 +195,9 @@ static const NSInteger kMaxNumberOfItems = 3;
     while (index < 0) {
         index += max;
     }
-    index = (max + fromIndex + index) % max;
+    if (max != 0) {
+        index = (max + fromIndex + index) % max;
+    }
     return index;
 }
 
