@@ -15,6 +15,9 @@
 @protocol SWInfiniteScrollViewDataSource <NSObject>
 
 - (NSInteger)numberOfPagesInScrollView:(SWInfiniteScrollView *)scrollView;
+/**
+ 传入一个 Class 的方式太不灵活了，有机会要重构的
+ */
 - (Class)classOfPageViewInScrollView:(SWInfiniteScrollView *)scrollView;
 
 @end

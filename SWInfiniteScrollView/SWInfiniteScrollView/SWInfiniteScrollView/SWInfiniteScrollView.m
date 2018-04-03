@@ -88,6 +88,8 @@ static const NSInteger kMaxNumberOfItems = 3;
 
 @implementation SWInfiniteScrollView
 
+@synthesize delegate;
+
 - (void)addSubitemView:(SWInfiniteScrollViewItemView *)itemView {
     [self.itemViews addObject:itemView];
     [self.itemViewsWrapperView addSubview:itemView];
